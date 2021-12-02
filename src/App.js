@@ -1,12 +1,14 @@
-import './App.css'
+import './App.scss'
 import LoginPage from './components/LoginPage'
-import { React } from 'react'
 
 function App() {
+  function handleSignInClick(inputComponentRef) {
+    console.log(inputComponentRef.value)
+  }
+
   return (
     <div className="App">
-      <header className="App-header"></header>
-      <LoginPage />
+      <LoginPage handleSignInClick={handleSignInClick} />
     </div>
   )
 }
