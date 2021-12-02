@@ -1,16 +1,13 @@
-import './App.scss'
-import LoginPage from './components/LoginPage'
+import "./App.scss";
+import LoginPage from "./components/LoginPage";
+import handleSignInClick from "./helpers/handleSignInClick";
 
 function App() {
-  function handleSignInClick(inputComponentRef) {
-    console.log(inputComponentRef.value)
-  }
-
   return (
     <div className="App">
       <LoginPage handleSignInClick={handleSignInClick} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

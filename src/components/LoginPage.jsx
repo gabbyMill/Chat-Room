@@ -1,8 +1,8 @@
-import './scss/LoginPage.scss'
-import { useRef } from 'react'
+import "./scss/LoginPage.scss";
+import { useRef } from "react";
 
 function LoginPage(props) {
-  const inputEl = useRef()
+  const inputEl = useRef();
 
   return (
     <div className="login-page">
@@ -12,6 +12,6 @@ function LoginPage(props) {
         sign in
       </button>
     </div>
-  )
+  );
 }
-export default LoginPage
+export default LoginPage;

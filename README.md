@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Chat room task
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### In the next exercise we will build a chat room Which will rely on [SSE](https://ably.com/topic/server-sent-events)
 
-## Available Scripts
+## Requirements:
 
-In the project directory, you can run:
+### The chat room will allow several participants to talk to each other and with the help of SSE the messages will be transmitted from one user through the server and to all participants
 
-### `npm start`
+1. Create a **login screen** and a **chat screen**
+2. The **login screen** Will contain an entry form (asking only for username is the minimum requirement - look at the bonus section to see more options).
+3. The **chat screen** Will contain the chat.
+4. Use [React-router](https://reactrouter.com/docs/en/v6/getting-started/tutorial "Tutorial") to enable switching between **login screen** and **chat screen**
+5. After a user login, an event is sent to the server for initial connection and this message is published to all other participants.
+6. When a user disconnect the server will send a disconnection event that will inform all participants.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Chat screen
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. divided to:
 
-### `npm test`
+- Text writing area.
+- Area of ​​previous messages (like chat on WhatsApp).
+- Updated list of participants (like zoom).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. When a message is sent from one of the participants it will reach the server and be published live to all those users who are currently connected to the server
+3. When a participant enters or leaves the chat room (his connection to the server is terminated) the server will update the other participants with a message (as in WhatsApp)
+4. Messages coming from the server will be displayed in the designated area with the _time_ they were sent and the _name of the author_.
 
-### `npm run build`
+### Login screen
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Create a form for user input
+2. The minimum requirement is to take a username, in the bonus section you can see more complex ways.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Bonus:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Use jwt To assign a token to a user.
+2. Create auth middleware and check the token before you allow the user to enter the chat room
+3. Use private route to redirect a user without a valid token.
 
-### `npm run eject`
+- It is more important to us at this point that you practice React, move on to the following bonuses only after you feel in control of React in this exercise.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. When a user enters a chat room he will get the message history of the room.
+5. Clicking on a username sends a message only to it specifically
+6. Gray _V_ when the message successfully reached the server. 2 gray _V_ when the message reached all participants.
+7. Do only after all the other bonuses - create different rooms and option to be admin of a room.
