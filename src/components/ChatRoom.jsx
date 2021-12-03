@@ -1,26 +1,26 @@
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import Messages from "./Messages";
-import Participant from "./Participant";
-import ChatBar from "./ChatBar";
+import { useLocation } from 'react-router-dom'
+import axios from 'axios'
+import Messages from './Messages'
+import Participant from './Participant'
+import ChatBar from './ChatBar'
 
 export default function ChatRoom(props) {
-  const { state } = useLocation();
-  const data = useLocation();
-  console.log(data);
+  const { state } = useLocation()
+  const data = useLocation()
+  console.log(data)
 
   async function sendMessageToServer(inputValue) {
-    console.log(inputValue);
+    console.log(inputValue)
     // Axios to server
     try {
-      const res = await axios.post("./newmsg", { inputValue });
-      if (!res) return; // not supposed to
-      console.log(res.data);
-      console.log("Updated successfully");
+      const res = await axios.post('./newmsg', { inputValue })
+      if (!res) return // not supposed to
+      console.log(res.data)
+      console.log('Updated successfully')
     } catch (err) {
       // do something brah
-      console.log(err);
-      return;
+      console.log(err)
+      return
     }
   }
 
@@ -40,5 +40,5 @@ export default function ChatRoom(props) {
         <p>{state}</p>
       </div>
     </div>
-  );
+  )
 }
