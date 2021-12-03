@@ -6,4 +6,5 @@ axios.defaults.validateStatus = (status) => {
 
 export default async function connectToChat() {
   const res = await axios.get('chat')
+  console.log(res)
 }
