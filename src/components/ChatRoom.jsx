@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 import Messages from "./Messages";
 import Participant from "./Participant";
 import ChatBar from "./ChatBar";
@@ -7,11 +8,27 @@ export default function ChatRoom(props) {
   const { state } = useLocation();
   const data = useLocation();
   console.log(data);
+
+  async function sendMessageToServer(inputValue) {
+    console.log(inputValue);
+    // Axios to server
+    try {
+      const res = await axios.post("./newmsg", { inputValue });
+      if (!res) return; // not supposed to
+      console.log(res.data);
+      console.log("Updated successfully");
+    } catch (err) {
+      // do something brah
+      console.log(err);
+      return;
+    }
+  }
+
   return (
     <div id="chat-room">
       <div className="mess-bar">
         <Messages />
-        <ChatBar />
+        <ChatBar onSentMessage={sendMessageToServer} />
       </div>
       {/* Map over participants and render:
          <Participant name="pName" />*/}

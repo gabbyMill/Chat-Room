@@ -10,13 +10,21 @@ function LoginPage(props) {
   return (
     <div className="login-page">
       <p>Welcome! Please enter your nickname</p>
-      <input ref={inputEl} type="text" placeholder="nickname" />
+      <input
+        ref={inputEl}
+        type="text"
+        placeholder="nickname"
+        onKeyDown={e => {
+          if (e.key === "Enter") {
+            navigate("/room", { replace: false, state: inputEl.current.value }); // Later edit replace value to true
+          }
+        }}
+      />
       <button
         onClick={async () => {
           await props.handleSignInClick(inputEl.current);
           // Navigate to chatroom
-          console.log(inputEl.current);
-          navigate("/room", { replace: true, state: "data" });
+          navigate("/room", { replace: false, state: inputEl.current.value }); // Later edit replace value to true
         }}
       >
         sign in

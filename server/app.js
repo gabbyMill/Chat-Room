@@ -14,6 +14,13 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 
+app.post("/newmsg", (req, res, next) => {
+  const { inputValue } = req.body;
+  console.log(inputValue);
+  // Update in DB or something
+  // Send back a response to client to let him know if updated successfully
+  res.json(true);
+});
 app.use("/login", loginRoute);
 
 // app.use(errorHandler)
