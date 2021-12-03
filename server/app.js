@@ -2,6 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import loginRoute from './routes/loginRoute.js'
+import chatRoute from './routes/chatRoute.js'
 // import error handler
 
 const app = express()
@@ -16,17 +17,14 @@ app.use(
 
 app.use('/login', loginRoute)
 
+app.use('/chat', chatRoute)
+
 app.post('/newmsg', (req, res, next) => {
   const { inputValue } = req.body
   console.log(inputValue)
   // Update in DB or something
   // Send back a response to client to let him know if updated successfully
   res.json(true)
-})
-
-app.get('/chat:username', (req, res, next) => {
-  const { username } = req.body
-  res.json(username)
 })
 
 // app.use(errorHandler)

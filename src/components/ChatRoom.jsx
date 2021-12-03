@@ -1,10 +1,14 @@
 import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import axios from 'axios'
 import Messages from './Messages'
 import Participant from './Participant'
 import ChatBar from './ChatBar'
+import connectToChat from '../helpers/connectToChat'
 
 export default function ChatRoom(props) {
+  useEffect(() => connectToChat(), [])
+
   const { state } = useLocation()
   const data = useLocation()
   console.log(data)

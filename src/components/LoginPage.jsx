@@ -16,15 +16,17 @@ function LoginPage(props) {
         placeholder="nickname"
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            navigate('/room', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
+            props.useHandleSignInClick(inputEl.current.value, navigate)
+            // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
           }
         }}
       />
       <button
-        onClick={async () => {
-          await props.handleSignInClick(inputEl.current.value)
+        onClick={() => {
+          // async
+          props.useHandleSignInClick(inputEl.current.value, navigate) // await
           // Navigate to chatroom
-          navigate('/room', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
+          // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
         }}
       >
         sign in

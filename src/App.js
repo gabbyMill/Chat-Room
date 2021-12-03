@@ -1,8 +1,8 @@
-import "./App.scss";
-import LoginPage from "./components/LoginPage";
-import handleSignInClick from "./helpers/handleSignInClick";
-import ChatRoom from "./components/ChatRoom";
-import { Routes, Route } from "react-router-dom";
+import './App.scss'
+import LoginPage from './components/LoginPage'
+import useHandleSignInClick from './helpers/useHandleSignInClick'
+import ChatRoom from './components/ChatRoom'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
@@ -10,12 +10,12 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<LoginPage handleSignInClick={handleSignInClick} />}
+          element={<LoginPage useHandleSignInClick={useHandleSignInClick} />}
         />
-        <Route path="/room" element={<ChatRoom />} />
+        <Route path="/chat" element={<ChatRoom />} />
       </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

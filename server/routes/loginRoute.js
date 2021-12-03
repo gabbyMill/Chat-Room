@@ -9,13 +9,7 @@ router.get('/:username', (req, res, next) => {
   let inputExists = true // only here temporarily so line below  it won't throw errors
   if (!inputExists) res.status(404).json('Access denied') // Access Denied
 
-  // res.writeHead(200, 'username-header', { username })
-
-  // res.json(123)
-
-  res.redirect(`http://localhost:8080/chat:${username}`)
-
-  // res.json(inputExists) // Authorize access to chat room
+  res.send('login successfull')
 })
 
 export default router
