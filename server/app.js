@@ -14,6 +14,8 @@ app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body')
 )
 
+app.use('/login', loginRoute)
+
 app.post('/newmsg', (req, res, next) => {
   const { inputValue } = req.body
   console.log(inputValue)
@@ -22,12 +24,10 @@ app.post('/newmsg', (req, res, next) => {
   res.json(true)
 })
 
-app.get('/chat', (req, res, next) => {
-  console.log(req.headers)
-  res.json('blabla')
+app.get('/chat:username', (req, res, next) => {
+  const { username } = req.body
+  res.json(username)
 })
-
-app.use('/login', loginRoute)
 
 // app.use(errorHandler)
 
