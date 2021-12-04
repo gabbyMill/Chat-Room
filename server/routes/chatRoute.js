@@ -1,9 +1,11 @@
+/* =========================== */
+
 import express from 'express'
 import axios from 'axios'
 import Participant from '../models/Participant.js'
+import Message from '../models/Message.js'
 
-// import { EventEmitter } from 'events'
-// const emitter = new EventEmitter()
+/* =========================== */
 
 // configure axios to reject promises only for status codes higher than 500
 axios.defaults.validateStatus = (status) => {
@@ -13,12 +15,13 @@ const router = express.Router()
 
 /* =========================== */
 
-const CONNECTED_USERS = Participant.find({ online: true })
+// const usersConnectionStreams = Participant.find({ online: true })
+const usersConnectionStreams = []
 
-function sendMessageToAll(name, text, time) {
-  CONNECTED_USERS.forEach((connection) => {
-    const obj = { name, text, time: new Date() }
-    connection.res.write(`data: ${JSON.stringify(obj)} \n\n`)
+function dispatchMessageToAll(name, text, time) {
+  usersConnectionStreams.forEach((connection) => {
+    const message = { name, text, time }
+    connection.res.write(`data: ${JSON.stringify(message)} \n\n`)
   })
 }
 
@@ -26,7 +29,7 @@ router.post('/newmsg', (req, res, next) => {
   const { message, state } = req.body
   console.log(message, state)
   if (!message && !state) return
-  sendMessageToAll(state, message)
+  dispatchMessageToAll(state, message)
   res.end() // can edit this to return a value
 })
 
@@ -34,11 +37,27 @@ router.get('/', (req, res, next) => {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
   })
-  const { inputValue } = 'guest' // username buld it fucker
-  CONNECTED_USERS.push({ username: inputValue, res })
+  Message.find({})
+    .then((result) => res.write(result))
+    .catch((err) => {
+      res.write('an error has occured!')
+    })
 
-  CONNECTED_USERS.forEach((item) => {
-    res.write(`data: ${inputValue} has now connected \n\n`)
+  req.on('close', () => {
+    // Here you should add dissconnetion functionality, send a message to all other users
+  })
+})
+
+router.get('/users', (req, res, next) => {
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+  })
+  //each time someone connects to this route, a unique res instance is created. performing the method 'res.write' on a unique res will send a stream to that specific res.
+  usersConnectionStreams.push({ username: 'guest', res })
+
+  // inform everyone in the chat that a new user came in
+  usersConnectionStreams.forEach((user) => {
+    user.res.write(`data: ${'guset'} has now connected \n\n`)
   })
   req.on('close', () => {
     // Here you should add dissconnetion functionality, send a message to all other users

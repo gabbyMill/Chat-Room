@@ -17,15 +17,22 @@ function renderChatBubble(bubbleText, bubbleAuthor, bubbleDate) {
     />
   )
 }
-const chatSource = new EventSource('http://localhost:8080/chat')
 
 function ChatRoom(props) {
+  const [chatMessagesSource, setChatMessagesSource] = useState(null)
+  const [chatUsersSource, setChatUsersSource] = useState(null)
+
+  useEffect(() => {
+    setChatMessagesSource(new EventSource('http://localhost:8080/chat'))
+    setChatUsersSource(new EventSource('http://localhost:8080/chat/users'))
+  }, [])
+
   const [messagesData, setMessageData] = useState([])
 
-  if (chatSource) {
-    chatSource.onmessage = function handleMessage({ data }) {
+  if (chatMessagesSource) {
+    chatMessagesSource.onmessage = function handleMessageRecieved({ data }) {
+      console.log('message data', data)
       const { text, time } = JSON.parse(data)
-      console.log(text, time)
     }
   }
 

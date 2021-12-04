@@ -32,14 +32,10 @@ function LoginPage(props) {
       />
       <button
         onClick={async () => {
-          // async
           const participantsList = await props.useHandleSignInClick(
             inputEl.current.value,
             navigate
           )
-          addToList(participantsList)
-          // Navigate to chatroom
-          // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
         }}
       >
         sign in
