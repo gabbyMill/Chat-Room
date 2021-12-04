@@ -2,37 +2,46 @@ import express from 'express'
 import axios from 'axios'
 import data from './db.js'
 
-// import path from 'path'
-// const dbDir = path.join(path.dirname(''), '../', 'db.js')
+// import { EventEmitter } from 'events'
+// const emitter = new EventEmitter()
 
 // configure axios to reject promises only for status codes higher than 500
 axios.defaults.validateStatus = (status) => {
   return status < 500
 }
 const router = express.Router()
+/* =========================== */
 
-let count = 0
+const CONNECTED_USERS = []
+
+function sendMessageToAll(name, text, time) {
+  CONNECTED_USERS.forEach((connection) => {
+    const obj = { name, text, time: new Date() }
+    connection.res.write(`data: ${JSON.stringify(obj)} \n\n`)
+  })
+}
+
+router.post('/newmsg', (req, res, next) => {
+  const { message, state } = req.body
+  console.log(message, state)
+  if (!message && !state) return
+  sendMessageToAll(state, message)
+  res.end() // can edit this to return a value
+})
 
 router.get('/', (req, res, next) => {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
   })
-  setTimeout(async function something() {
-    const messages = await fetchMessages()
-    console.log(messages)
-    let data = JSON.stringify(messages)
-    res.write(data)
-  }, 3000)
-})
+  const { inputValue } = 'guest' // username buld it fucker
+  CONNECTED_USERS.push({ username: inputValue, res })
 
-async function fetchMessages() {
-  try {
-    // const data = await axios.request(options)
-    // return data.data.quoteResponse.result
-    return data
-  } catch (error) {
-    return error
-  }
-}
+  CONNECTED_USERS.forEach((item) => {
+    res.write(`data: ${inputValue} has now connected \n\n`)
+  })
+  req.on('close', () => {
+    // Here you should add dissconnetion functionality, send a message to all other users
+  })
+})
 
 export default router

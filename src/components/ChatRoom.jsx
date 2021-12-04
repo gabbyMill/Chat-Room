@@ -6,20 +6,40 @@ import Participant from './Participant'
 import ChatBar from './ChatBar'
 import connectToChat from '../helpers/connectToChat'
 
+const source = new EventSource('http://localhost:8080/chat')
+
 export default function ChatRoom(props) {
-  useEffect(() => connectToChat(), [])
+  // useEffect(() => {
+  //   // connectToChat(), []
+  //   source.onopen = (event) => {
+  //     console.log('Welcome to the chat')
+  //   }
+  //   source.onmessage = function handleMessage(event) {
+  //     console.log(event.data)
+  //   }
+  //   // source.onmessage(function handleMessage(event) {
+  //   //   console.log(event)
+  //   //   console.log(event.data)
+  //   // })
+  // }, [])
+
+  if (source) {
+    console.log(123)
+    source.onmessage = function handleMessage(event) {
+      console.log(event.data)
+    }
+  }
 
   const { state } = useLocation()
-  const data = useLocation()
-  console.log(data)
-
-  async function sendMessageToServer(inputValue) {
-    console.log(inputValue)
+  async function sendMessageToServer(message) {
     // Axios to server
     try {
-      const res = await axios.post('./newmsg', { inputValue })
+      const res = await axios.post(`http://localhost:8080/chat/newmsg`, {
+        message,
+        username: state,
+      })
       if (!res) return // not supposed to
-      console.log(res.data)
+      console.log(res)
       console.log('Updated successfully')
     } catch (err) {
       // do something brah
