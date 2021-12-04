@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const participantSchema = mongoose.Schema({
   username: String,
   token: String,
-  // text: String, // ? needed ?
+  online: Boolean,
 })
 
 const Participant = mongoose.model('Participant', participantSchema)

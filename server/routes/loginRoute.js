@@ -16,7 +16,7 @@ router.get('/:username', async (req, res, next) => {
     console.log(isUsernameTaken)
     if (isUsernameTaken) throw { status: 409, message: 'Name taken' }
     const userToken = jwt.sign(username, process.env.secretKey)
-    await Participant.create({ username, token: userToken })
+    await Participant.create({ username, token: userToken, online: false })
     // const answer = await Participant.find({})
     res.json(userToken)
   } catch (err) {
