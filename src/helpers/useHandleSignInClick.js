@@ -1,25 +1,28 @@
-import axios from 'axios'
+import axios from "axios";
+
+// import db from "../../server/routes/db.js";
 
 // configure axios to reject promises only for status codes higher than 500
-axios.defaults.validateStatus = (status) => {
-  return status < 500
-}
+axios.defaults.validateStatus = status => {
+  return status < 500;
+};
 
 export default async function useHandleSignInClick(username, navigate) {
   try {
-    const res = await axios.get(`login/${username}`)
+    const res = await axios.get(`login/${username}`);
     if (res) {
-      navigate('/chat', { replace: false, state: username }) // Later edit replace value to true
+      navigate("/chat", { replace: false, state: username }); // Later edit replace value to true
     }
-    // const messagesData = await axios.get(./'allmessages')
 
+    // const messagesData = await axios.get(./'allmessages')
     // Direct to chat-room path either here or in login page:
 
-    return true
+    // return db;
+    return true;
   } catch (err) {
     // Handle error
     // Axios error/ Access denied
-    return
+    return;
   }
 }
 

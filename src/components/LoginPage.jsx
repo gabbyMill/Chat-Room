@@ -1,11 +1,15 @@
-import './scss/LoginPage.scss'
-import axios from 'axios'
-import { useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import "./scss/LoginPage.scss";
+import axios from "axios";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage(props) {
-  const inputEl = useRef()
-  const navigate = useNavigate()
+  const inputEl = useRef();
+  const navigate = useNavigate();
+
+  function addToList(participantsList) {
+    console.log(props.participants);
+  }
 
   return (
     <div className="login-page">
@@ -14,17 +18,26 @@ function LoginPage(props) {
         ref={inputEl}
         type="text"
         placeholder="nickname"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            props.useHandleSignInClick(inputEl.current.value, navigate)
+        onKeyDown={async e => {
+          if (e.key === "Enter") {
+            const participantsList = await props.useHandleSignInClick(
+              inputEl.current.value,
+              navigate
+            );
+            addToList(participantsList);
+            // props;
             // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
           }
         }}
       />
       <button
-        onClick={() => {
+        onClick={async () => {
           // async
-          props.useHandleSignInClick(inputEl.current.value, navigate) // await
+          const participantsList = await props.useHandleSignInClick(
+            inputEl.current.value,
+            navigate
+          );
+          addToList(participantsList);
           // Navigate to chatroom
           // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
         }}
@@ -32,6 +45,6 @@ function LoginPage(props) {
         sign in
       </button>
     </div>
-  )
+  );
 }
-export default LoginPage
+export default LoginPage;
