@@ -8,3 +8,5 @@ function ChatBubble(props) {
     </div>
   );
 }
+
+export default ChatBubble;

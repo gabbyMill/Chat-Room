@@ -3,7 +3,6 @@ import Participant from "../models/Participant.js";
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
-  console.log("participant");
   const { username } = req.body;
   try {
     if (!username) throw { status: 500, message: "Invalid Username" };

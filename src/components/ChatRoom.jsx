@@ -5,13 +5,21 @@ import Messages from "./Messages";
 import Participant from "./Participant";
 import ChatBar from "./ChatBar";
 import connectToChat from "../helpers/connectToChat";
+import ChatBubble from "./ChatBubble";
 
+function renderChatBubble(bubbleText, bubbleAuthor, bubbleDate) {
+  return (
+    <ChatBubble
+      key={`bubble-${bubbleDate}`}
+      bubbleText={bubbleText}
+      bubbleDate={bubbleDate}
+    />
+  );
+}
 const source = new EventSource("http://localhost:8080/chat");
 
-export default function ChatRoom(props) {
+function ChatRoom(props) {
   const [messagesData, setMessageData] = useState([]);
-
-  function renderChatBubble(data) {}
 
   if (source) {
     source.onmessage = function handleMessage({ data }) {
@@ -36,15 +44,17 @@ export default function ChatRoom(props) {
       return;
     }
   }
-
   return (
     <div id="chat-room">
       <div className="mess-bar">
+        {messagesData.map(messageData =>
+          renderChatBubble(messageData.text, "guest", messageData.date)
+        )}
         <Messages />
         <ChatBar onSentMessage={sendMessageToServer} />
       </div>
       {/* Map over participants and render:
-         <Participant name="pName" />*/}
+           <Participant name="pName" />*/}
       <div className="participants">{/* connectedusers.map */}</div>
     </div>
   );
@@ -63,3 +73,5 @@ export default function ChatRoom(props) {
 //   //   console.log(event.data)
 //   // })
 // }, [])
+
+export default ChatRoom;
