@@ -1,5 +1,6 @@
 import express from 'express'
 import Participant from '../models/Participant.js'
+import jwt from 'jsonwebtoken'
 const router = express.Router()
 
 router.get('/:username', async (req, res, next) => {
@@ -14,9 +15,10 @@ router.get('/:username', async (req, res, next) => {
     )
     console.log(isUsernameTaken)
     if (isUsernameTaken) throw { status: 409, message: 'Name taken' }
-    await Participant.create({ username })
-    const answer = await Participant.find({})
-    res.json(answer)
+    const userToken = jwt.sign(username, process.env.secretKey)
+    await Participant.create({ username, token: userToken })
+    // const answer = await Participant.find({})
+    res.json(userToken)
   } catch (err) {
     res.json(err)
     // next(err)

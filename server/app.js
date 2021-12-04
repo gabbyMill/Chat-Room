@@ -1,35 +1,35 @@
-import express from "express";
-import morgan from "morgan";
-import cors from "cors";
-import loginRoute from "./routes/loginRoute.js";
-import chatRoute from "./routes/chatRoute.js";
-import addParticipant from "./routes/addParticRoute.js";
+import express from 'express'
+import morgan from 'morgan'
+import cors from 'cors'
+import loginRoute from './routes/loginRoute.js'
+import chatRoute from './routes/chatRoute.js'
+import addParticipant from './routes/addParticRoute.js'
 // import error handler
 
-const app = express();
+const app = express()
 
-morgan.token("body", req => JSON.stringify(req.body));
+morgan.token('body', (req) => JSON.stringify(req.body))
 
-app.use(cors());
-app.use(express.json());
+app.use(cors())
+app.use(express.json())
 app.use(
-  morgan(":method :url :status :res[content-length] - :response-time ms :body")
-);
+  morgan(':method :url :status :res[content-length] - :response-time ms :body')
+)
 
-app.use("/login", loginRoute);
+app.use('/login', loginRoute)
 
-app.use("/chat", chatRoute);
+app.use('/chat', chatRoute)
 
-app.use("/partic", addParticipant);
+// app.use("/partic", addParticipant);
 
-app.post("/newmsg", (req, res, next) => {
-  const { inputValue } = req.body;
-  console.log(inputValue);
-  // Update in DB or something
-  // Send back a response to client to let him know if updated successfully
-  res.json(true);
-});
+// app.post("/newmsg", (req, res, next) => {
+//   const { inputValue, } = req.body;
+//   console.log(inputValue);
+//   // Update in DB or something
+//   // Send back a response to client to let him know if updated successfully
+//   res.json(true);
+// });
 
 // app.use(errorHandler)
 
-export default app;
+export default app
