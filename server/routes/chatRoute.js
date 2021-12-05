@@ -57,7 +57,7 @@ router.get('/users', (req, res, next) => {
 
   // inform everyone in the chat that a new user came in
   usersConnectionStreams.forEach((user) => {
-    user.res.write(`data: ${'guset'} has now connected \n\n`)
+    user.res.write(`data: ${'guest'} has now connected \n\n`)
   })
   req.on('close', () => {
     // Here you should add dissconnetion functionality, send a message to all other users
