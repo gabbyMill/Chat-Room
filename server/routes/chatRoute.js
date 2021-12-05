@@ -1,6 +1,7 @@
 import express from "express";
 import axios from "axios";
 import Participant from "../models/Participant.js";
+import jwt from "jsonwebtoken";
 
 // configure axios to reject promises only for status codes higher than 500
 axios.defaults.validateStatus = status => {

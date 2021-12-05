@@ -36,6 +36,10 @@ function LoginPage(props) {
           );
           //  const userToken =
           localStorage.setItem("token", token);
+          const participantsList = await props.useHandleSignInClick(
+            inputEl.current.value,
+            navigate
+          );
         }}
       >
         sign in
