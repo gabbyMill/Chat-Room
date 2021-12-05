@@ -1,12 +1,15 @@
-import "./scss/LoginPage.scss";
-import axios from "axios";
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import useHandleSignInClick from "../helpers/useHandleSignInClick";
+import './scss/LoginPage.scss'
+import axios from 'axios'
+import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function LoginPage(props) {
-  const inputEl = useRef();
-  const navigate = useNavigate();
+  const inputEl = useRef()
+  const navigate = useNavigate()
+
+  function addToList(participantsList) {
+    console.log(props.participants)
+  }
 
   return (
     <div className="login-page">
@@ -15,36 +18,29 @@ function LoginPage(props) {
         ref={inputEl}
         type="text"
         placeholder="nickname"
-        onKeyDown={async e => {
-          if (e.key === "Enter") {
-            // async
-
-            const token = await props.useHandleSignInClick(
+        onKeyDown={async (e) => {
+          if (e.key === 'Enter') {
+            const userToken = await props.useHandleSignInClick(
               inputEl.current.value,
               navigate
-            );
-            localStorage.setItem("token", token);
+            )
+            // addToList(participantsList)
+            // props;
+            // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
           }
         }}
       />
       <button
         onClick={async () => {
-          // async await
-          const token = await props.useHandleSignInClick(
-            inputEl.current.value,
-            navigate
-          );
-          //  const userToken =
-          localStorage.setItem("token", token);
           const participantsList = await props.useHandleSignInClick(
             inputEl.current.value,
             navigate
-          );
+          )
         }}
       >
         sign in
       </button>
     </div>
-  );
+  )
 }
-export default LoginPage;
+export default LoginPage
