@@ -9,7 +9,6 @@ router.get('/:username', async (req, res, next) => {
     const { username } = req.params
     if (!username) throw { status: 401, message: 'Invalid Username' }
     const allParticipants = await Participant.find({})
-    console.log(allParticipants)
     const isUsernameTaken = allParticipants.some(
       (participant) => participant.user.toLowerCase() === username.toLowerCase()
     )

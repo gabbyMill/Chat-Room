@@ -4,7 +4,7 @@
 }
 
 .App {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   text-align: center;
   display: flex;
@@ -14,7 +14,7 @@
 
 #chat-room {
   display: flex;
-  width: 90vh;
+  width: 90vw;
   height: 90vh;
   border: solid 1px black;
   justify-content: space-between;
@@ -26,7 +26,7 @@
   margin: 1rem;
   justify-content: space-between;
   border: 1px dashed lightblue;
-  width: 70vh;
+  width: 70vw;
   // Add width, stretch until participants
 }
 
@@ -34,7 +34,7 @@
   padding: 1rem;
   margin: 1rem;
   border: 1px dashed lightblue;
-  width: 20vh;
+  width: 20vw;
   // add scrollable
 }
 
@@ -43,5 +43,8 @@
 }
 
 .inp {
-  width: 10rem;
+}
+
+.send-btn {
+  margin: 0 auto;
 }

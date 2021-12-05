@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
 const messageSchema = mongoose.Schema({
-  author: String,
-  text: String, // ? needed ?
-  date: Date,
+  username: String,
+  message: String, // ? needed ?
+  time: Date,
 })
 
 const Message = mongoose.model('Message', messageSchema)

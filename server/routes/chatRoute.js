@@ -18,18 +18,20 @@ const router = express.Router()
 // const usersConnectionStreams = Participant.find({ online: true })
 const usersConnectionStreams = []
 
-function dispatchMessageToAll(name, text, time) {
+function dispatchMessageToAll(obj) {
   usersConnectionStreams.forEach((connection) => {
-    const message = { name, text, time }
-    connection.res.write(`data: ${JSON.stringify(message)} \n\n`)
+    connection.res.write(`data: ${obj} \n\n`)
   })
 }
 
-router.post('/newmsg', (req, res, next) => {
-  const { message, state } = req.body
-  console.log(message, state)
-  if (!message && !state) return
-  dispatchMessageToAll(state, message)
+router.post('/newmsg', async (req, res, next) => {
+  const { message, username, time } = req.body
+  if (!message && !username && !time) return
+  await Message.create({ username, message, time })
+  dispatchMessageToAll({ username, message, time })
+
+  // if (flag.length < 1) return
+
   res.end() // can edit this to return a value
 })
 
@@ -37,17 +39,21 @@ router.get('/', (req, res, next) => {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
   })
+  // Send message history on initial connection
   Message.find({})
-    .then((result) => res.write(result))
+    .then((messages) => res.write(`data: ${messages} \n\n`))
     .catch((err) => {
       res.write('an error has occured!')
     })
+
+  // Send chat particiapnts on initial connection
+
+  res.write(`data: ${usersConnectionStreams.map((item) => item.username)} \n\n`)
 
   req.on('close', () => {
     // Here you should add dissconnetion functionality, send a message to all other users
   })
 })
-
 router.get('/users', (req, res, next) => {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',

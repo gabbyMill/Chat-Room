@@ -7,40 +7,29 @@ import ChatBar from './ChatBar'
 import connectToChat from '../helpers/connectToChat'
 import ChatBubble from './ChatBubble'
 
-function renderChatBubble(bubbleText, bubbleAuthor, bubbleDate) {
-  return (
-    <ChatBubble
-      key={`bubble-${bubbleDate}`}
-      bubbleText={bubbleText}
-      bubbleDate={bubbleDate}
-      bubbleAuthor={bubbleAuthor}
-    />
-  )
-}
-
+const source = new EventSource('http://localhost:8080/chat')
 function ChatRoom(props) {
-  const [chatMessagesSource, setChatMessagesSource] = useState(null)
-  const [chatUsersSource, setChatUsersSource] = useState(null)
-
-  useEffect(() => {
-    setChatMessagesSource(new EventSource('http://localhost:8080/chat'))
-    setChatUsersSource(new EventSource('http://localhost:8080/chat/users'))
-  }, [])
-
+  const [chatSource, setChatSource] = useState(source)
   const [messagesData, setMessageData] = useState([])
 
-  if (chatMessagesSource) {
-    chatMessagesSource.onmessage = function handleMessageRecieved({ data }) {
-      console.log('message data', data)
-      const { text, time } = JSON.parse(data)
+  useEffect(() => {
+    chatSource.onmessage = function handleMessageRecieved(data) {
+      console.log(data)
+      // const obj = JSON.parse(data)
+      // console.log(JSON.parse(data))
+      // console.log(JSON.stringify(data))
+      // console.log('message data', data)
+      // const { text, time } = JSON.parse(data)
+      // console.log(text, time)
     }
-  }
+  }, [])
 
   const { state } = useLocation()
   async function sendMessageToServer(message) {
     // Axios to server
     try {
       const res = await axios.post(`http://localhost:8080/chat/newmsg`, {
+        time: new Date(),
         message,
         username: state,
       })
@@ -59,15 +48,28 @@ function ChatRoom(props) {
           renderChatBubble(messageData.text, 'guest', messageData.date)
         )}
         <Messages />
-        <ChatBar onSentMessage={sendMessageToServer} />
+        <ChatBar sendMessageToServer={sendMessageToServer} />
       </div>
-      {/* Map over participants and render:
-           <Participant name="pName" />*/}
-      <div className="participants">{/* connectedusers.map */}</div>
+      {/* /* Map over participants and render:*/}
+
+      <div className="participants">
+        <Participant name="Ido" />
+        {/* connectedusers.map */}
+      </div>
     </div>
   )
 }
 
+function renderChatBubble(bubbleText, bubbleAuthor, bubbleDate) {
+  return (
+    <ChatBubble
+      key={`bubble-${bubbleDate}`}
+      bubbleText={bubbleText}
+      bubbleDate={bubbleDate}
+      bubbleAuthor={bubbleAuthor}
+    />
+  )
+}
 // useEffect(() => {
 //   // connectToChat(), []
 //   source.onopen = (event) => {
