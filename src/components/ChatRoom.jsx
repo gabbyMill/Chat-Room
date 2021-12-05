@@ -24,14 +24,16 @@ function ChatRoom(props) {
     }
   }, [])
 
-  const { state } = useLocation()
+  const data = useLocation()
+  const username = data.state
   async function sendMessageToServer(message) {
     // Axios to server
     try {
+      console.log(message, username)
       const res = await axios.post(`http://localhost:8080/chat/newmsg`, {
         time: new Date(),
         message,
-        username: state,
+        username,
       })
       if (!res) return // not supposed to
       console.log(res)
