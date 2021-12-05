@@ -16,10 +16,8 @@ function App() {
           element={
             <LoginPage
               useHandleSignInClick={useHandleSignInClick}
-              connectedParticipants={[
-                connectedParticipants,
-                setConnectedParticipants,
-              ]}
+              connectedParticipants={connectedParticipants}
+              setConnectedParticipants={setConnectedParticipants}
             />
           }
         />

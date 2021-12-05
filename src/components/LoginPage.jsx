@@ -1,15 +1,12 @@
-import './scss/LoginPage.scss'
-import axios from 'axios'
-import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import "./scss/LoginPage.scss";
+import axios from "axios";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import useHandleSignInClick from "../helpers/useHandleSignInClick";
 
 function LoginPage(props) {
-  const inputEl = useRef()
-  const navigate = useNavigate()
-
-  function addToList(participantsList) {
-    console.log(props.participants)
-  }
+  const inputEl = useRef();
+  const navigate = useNavigate();
 
   return (
     <div className="login-page">
@@ -18,33 +15,32 @@ function LoginPage(props) {
         ref={inputEl}
         type="text"
         placeholder="nickname"
-        onKeyDown={async (e) => {
-          if (e.key === 'Enter') {
-            const userToken = await props.useHandleSignInClick(
+        onKeyDown={async e => {
+          if (e.key === "Enter") {
+            // async
+
+            const token = await props.useHandleSignInClick(
               inputEl.current.value,
               navigate
-            )
-            // addToList(participantsList)
-            // props;
-            // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
+            );
+            localStorage.setItem("token", token);
           }
         }}
       />
       <button
         onClick={async () => {
-          // async
-          const participantsList = await props.useHandleSignInClick(
+          // async await
+          const token = await props.useHandleSignInClick(
             inputEl.current.value,
             navigate
-          )
-          addToList(participantsList)
-          // Navigate to chatroom
-          // navigate('/chat', { replace: false, state: inputEl.current.value }) // Later edit replace value to true
+          );
+          //  const userToken =
+          localStorage.setItem("token", token);
         }}
       >
         sign in
       </button>
     </div>
-  )
+  );
 }
-export default LoginPage
+export default LoginPage;
