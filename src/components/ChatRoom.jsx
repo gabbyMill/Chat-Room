@@ -8,6 +8,7 @@ import connectToChat from '../helpers/connectToChat'
 import ChatBubble from './ChatBubble'
 
 const source = new EventSource('http://localhost:8080/chat')
+
 function ChatRoom(props) {
   const [chatSource, setChatSource] = useState(source)
   const [messagesData, setMessageData] = useState([])
@@ -26,15 +27,17 @@ function ChatRoom(props) {
 
   const data = useLocation()
   const username = data.state
-  async function sendMessageToServer(message) {
+  async function sendMessageToServer(message, username) {
     // Axios to server
     try {
-      console.log(message, username)
+      console.log('message being sent:', message, ' ...user sending:', username)
+      // await axios.get('/other').then((response) => console.log(response))
       const res = await axios.post(`http://localhost:8080/chat/newmsg`, {
         time: new Date(),
         message,
         username,
       })
+      console.log('after axios')
       if (!res) return // not supposed to
       console.log(res)
       console.log('Updated successfully')

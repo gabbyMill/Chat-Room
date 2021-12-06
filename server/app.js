@@ -3,7 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import loginRoute from './routes/loginRoute.js'
 import chatRoute from './routes/chatRoute.js'
-import addParticipant from './routes/addParticRoute.js'
+import otherRoute from './routes/otherRoute.js'
 // import error handler
 
 const app = express()
@@ -19,6 +19,8 @@ app.use(
 app.use('/login', loginRoute)
 
 app.use('/chat', chatRoute)
+
+app.use('/other', otherRoute)
 
 // app.use("/partic", addParticipant);
 

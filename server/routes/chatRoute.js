@@ -22,12 +22,17 @@ function dispatchMessageToAll(obj) {
   usersConnectionStreams.forEach((connection) => {
     connection.res.write(`data: ${obj} \n\n`)
   })
+  console.log('new message dispatched')
 }
 
 router.post('/newmsg', async (req, res, next) => {
+  console.log('new message recieved in server')
   const { message, username, time } = req.body
-  if (!message && !username && !time) return
+  if (!message && !username && !time) {
+    res.send('bad request, message info missing')
+  }
   await Message.create({ username, message, time })
+
   dispatchMessageToAll({ username, message, time })
 
   // if (flag.length < 1) return
@@ -41,14 +46,20 @@ router.get('/', (req, res, next) => {
   })
   // Send message history on initial connection
   Message.find({})
-    .then((messages) => res.write(`data: ${messages} \n\n`))
+    .then((messages) => {
+      res.write(`data: ${JSON.stringify(messages)} \n\n`)
+    })
     .catch((err) => {
       res.write('an error has occured!')
     })
 
   // Send chat particiapnts on initial connection
 
-  res.write(`data: ${usersConnectionStreams.map((item) => item.username)} \n\n`)
+  res.write(
+    `data: ${JSON.stringify(
+      usersConnectionStreams.map((item) => item.username)
+    )} \n\n`
+  )
 
   req.on('close', () => {
     // Here you should add dissconnetion functionality, send a message to all other users
